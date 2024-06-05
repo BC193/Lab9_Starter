@@ -88,6 +88,12 @@
   </main>
 
   <script>
+    class CustomError extends Error {
+      constructor(message) {
+        super(message);
+        this.name = "CustomError";
+      }
+    }
     let form = document.querySelector('form');
     form.addEventListener('submit', e => {
       e.preventDefault();
@@ -95,13 +101,101 @@
       let firstNum = document.querySelector('#first-num').value;
       let secondNum = document.querySelector('#second-num').value;
       let operator = document.querySelector('#operator').value;
-      output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`);
+      try {
+        if (secondNum == 0 && operator == '/') throw new CustomError("Cannot divide by zero");
+        output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`);
+      } catch (error) {
+        output.innerHTML = error.message;
+        console.error(error);
+      }
     });
 
     let errorBtns = Array.from(document.querySelectorAll('#error-btns > button'));
 
     // Start your code here
     // You may move this JS to another file if you wish
+    let log = errorBtns[0];
+    log.addEventListener('click', e => {
+      console.log('Console Log Demo');
+    });
+
+    let error = errorBtns[1];
+    error.addEventListener('click', e => {
+      console.error('Console Error Demo');
+    });
+
+    let count = errorBtns[2];
+    count.addEventListener('click', e => {
+      console.count('Count Button');
+    });
+
+    let warn = errorBtns[3];
+    warn.addEventListener('click', e => {
+      console.warn('Console Warn Demo');
+    });
+
+    let assert = errorBtns[4];
+    assert.addEventListener('click', e => {
+      console.assert(2, 'Console Assert Demo');
+      const errorMsg = "The number does not equal 3";
+      let number = 2;
+      console.assert(number === 3, "%o", { number, errorMsg });
+    });
+
+    let clear = errorBtns[5];
+    clear.addEventListener('click', e => {
+      console.clear();
+    });
+
+    let dir = errorBtns[6];
+    dir.addEventListener('click', e => {
+      console.dir(dir);
+    });
+
+    let dirxml = errorBtns[7];
+    dirxml.addEventListener('click', e => {
+      console.dirxml(dirxml);
+    });
+
+    let gs = errorBtns[8];
+    gs.addEventListener('click', e => {
+      console.group('console.group');
+    });
+
+    let ge = errorBtns[9];
+    ge.addEventListener('click', e => {
+      console.groupEnd();
+    });
+
+    let table = errorBtns[10];
+    table.addEventListener('click', e => {
+      const stuff = [
+        ["Software Engineering", "110"],
+        ["Programming Languages", "130"],
+        ["Advanced Software Engineering", "112"],
+      ];
+      console.table(stuff);
+    });
+
+    let timerS = errorBtns[11];
+    timerS.addEventListener('click', e => {
+      console.time('Timer Button');
+    });
+
+    let timerE = errorBtns[12];
+    timerE.addEventListener('click', e => {
+      console.timeEnd('Timer Button');
+    });
+
+    function a(){
+      b();
+    }
+
+    function b(){
+      console.trace();
+    }
+    let trace = errorBtns[13];
+    trace.addEventListener('click', a);
   </script>
 </body>
 
